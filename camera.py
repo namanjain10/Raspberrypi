@@ -4,7 +4,7 @@ from picamera import PiCamera
 import time
 import datetime
 import cv2
-
+import requests
 import RPi.GPIO as GPIO
 
 from git import Repo
@@ -45,10 +45,9 @@ def take_photo():
 		r1 = requests.post(
 			url,
 			headers=head,
-			data=files1
+			json=files1
 		)
 
-		print (r1)
 		print('A photo has been taken')
 		time_till = datetime.datetime.now()
 
@@ -70,14 +69,15 @@ while True :
 		GPIO.output(10, True)
 		time_till = datetime.datetime.now()
 		try :
+			print ("trying to close")
 			camera.close()
 		except :
 			pass
 
 	else :
 		try :
+			print ("trying to open!!!")
 			camera = PiCamera()
-			camera.start_preview()
 		except :
 			pass
 		take_photo()
